@@ -65,6 +65,29 @@
     }
  }
 
+ void imprimir (No *no){
+	printf ("\n LIsta: ");
+	
+	while (no){
+		printf ("%d ", no->valor);
+		no = no -> proximo;
+	}
+}                    
+
  int main(){
+
+    No *lista = NULL;
+
+    inserir_no_inicio(&lista, 45);
+    inserir_no_inicio(&lista, 32);
+    inserir_no_inicio(&lista,32);
+    inserir_no_inicio(&lista, 12);
+    inserir_no_inicio(&lista, 11);
+    inserir_no_fim(&lista, 87);
+    inserir_no_fim(&lista, 67);
+    inserir_no_meio(&lista,59,12);
+    inserir_no_meio(&lista, 99, 59);
+    
+    imprimir(lista);
     return 0;
  }
