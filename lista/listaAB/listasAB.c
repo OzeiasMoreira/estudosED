@@ -6,15 +6,15 @@ typedef struct no{
     struct no *proximo;
 } No;
 
-void inserir_no_inicio(No **lista,int num){
+void inserir_no_inicio(No **lista, int num){
     No *novo = malloc(sizeof(No));
 
     if(novo){
         novo->valor = num;
-        novo->proximo  = *lista;
+        novo->proximo = *lista;
         *lista = novo;
     } else {
-        printf("Erro\n");
+        return -1;
     }
 }
 
@@ -33,13 +33,14 @@ void inserir_no_fim(No **lista,int num){
             }
 
             aux->proximo = novo;
+
         }
     } else {
-        printf("Erro\n");
+        return -1;
     }
 }
 
-void inserir_no_meio(No **lista,int num,int ant){
+void inserir_no_meio(No **lista, int num, int ant){
     No *aux,*novo = malloc(sizeof(No));
 
     if(novo){
@@ -47,9 +48,8 @@ void inserir_no_meio(No **lista,int num,int ant){
         if(*lista == NULL){
             novo->proximo = NULL;
             *lista = novo;
-        
         } else {
-            aux = *lista;
+            aux  = *lista;
             while(aux->valor != ant && aux->proximo){
                 aux = aux->proximo;
             }
@@ -58,11 +58,11 @@ void inserir_no_meio(No **lista,int num,int ant){
             aux->proximo = novo;
         }
     } else {
-        printf("Erro\n");
+        return -1;
     }
 }
 
-void inserir_ordenado(No **lista, int num){
+void inserir_ordenado(No **lista,int num){
     No *aux,*novo = malloc(sizeof(No));
 
     if(novo){
@@ -70,7 +70,7 @@ void inserir_ordenado(No **lista, int num){
         if(*lista == NULL){
             novo->proximo = NULL;
             *lista = novo;
-        } else if (novo->valor  < (*lista)->valor){
+        } else if(novo->valor != (*lista)->valor){
             novo->proximo = *lista;
             *lista = novo;
         } else {
@@ -83,11 +83,26 @@ void inserir_ordenado(No **lista, int num){
             aux->proximo = novo;
         }
     } else {
-        printf("Erro\n");
+        return -1;
     }
 }
 
-No* remover(No **lista,int num){
+No* buscar(No **lista, int num){
+    No *aux,*no = NULL;
+
+    aux = *lista;
+    while(aux && aux->valor != num){
+        aux = aux->proximo;
+    }
+
+    if(aux){
+        no = aux;
+    }
+
+    return no;
+}
+
+No* remover(No **lista, int num){
     No *aux,*remover = NULL;
 
     if(*lista){
@@ -106,27 +121,18 @@ No* remover(No **lista,int num){
             }
         }
     } else {
-        
+        return -1;
     }
 
     return remover;
 }
 
-No* buscar(No **lista,int num){
-    No *aux,*no = NULL;
-
-    aux = *lista;
-    while(aux && aux->valor != num){
+void copiar_lista(No **lista, No **copiar){
+    No *aux = *lista;
+    while(aux){
+        inserir_ordenado(copiar, aux->valor);
         aux = aux->proximo;
     }
-
-    if(aux){
-        no = aux;
-    }
-
-    printf("Elemento encontrado: %d\n", no->valor);
-
-    return no;
 }
 
 void imprimir (No *no){
@@ -140,7 +146,9 @@ void imprimir (No *no){
 
 int main(){
     No *lista = NULL;
-                  
+    No *lista2 = NULL;
+    No *lista3 = NULL;
+    
     inserir_no_inicio(&lista, 45);
     inserir_no_inicio(&lista, 32);
     inserir_no_inicio(&lista,32);
@@ -154,10 +162,13 @@ int main(){
     inserir_ordenado(&lista, 33);
     inserir_ordenado(&lista, 13);
     inserir_ordenado(&lista, 60);
-    remover(&lista, 32);
-    free(remover);
-    buscar(&lista, 9);
+    inserir_ordenado(&lista2, 4);
+    inserir_ordenado(&lista2, 145);
+    inserir_ordenado(&lista2, 23);
+    inserir_ordenado(&lista2, 654);
+    copiar_lista(&lista, &lista3);
+    copiar_lista(&lista2, &lista3);
+    imprimir(lista3);
     
-    imprimir(lista);
     return 0;
 }
