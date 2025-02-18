@@ -69,6 +69,16 @@ int quantidade_nos(NoArv *raiz){
     }
 }
 
+int quantidade_folhas(NoArv *raiz){
+    if(raiz == NULL){
+        return 0;
+    } else if(raiz ->esquerda && raiz->direita == NULL){
+        return 1;
+    } else {
+        return quantidade_folhas(raiz->esquerda) + quantidade_folhas(raiz->direita);
+    }
+}
+
 void imprimir_ordenado(NoArv *raiz){
     if(raiz){
         imprimir_ordenado(raiz->esquerda);
@@ -92,5 +102,6 @@ int main(){
     printf("\nElemento %d encontrado.\n", buscar(raiz, 34)->valor);
     printf("\n Altura da arvore: %d.\n", calcularAltura(raiz));
     printf("\n Quantidade de nos: %d.\n", quantidade_nos(raiz));
+    printf("\n Quantidade de folhas: %d.\n", quantidade_folhas(raiz));
     return 0;
 }
