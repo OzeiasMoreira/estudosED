@@ -1,0 +1,7 @@
+Considere os seguintes algoritmos e classifique suas complexidades em O(n), O(log n), O(n²), O(1), O(n log n), etc.
+
+a) Busca Binária = O(log n)
+b) Bubble Sort = O(n²)
+c) Quick Sort (pior caso) = O(n²)
+d) Acesso direto a um índice de vetor = O(1)
+e) Soma de todos os elementos de uma matriz n x n = O(n²)
