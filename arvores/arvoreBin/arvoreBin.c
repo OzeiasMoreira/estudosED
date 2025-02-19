@@ -47,6 +47,56 @@ NoArv* buscar(NoArv *raiz,int num){
 
 }
 
+NoArv* remover(NoArv *raiz, int valor){
+    if(raiz == NULL){
+        printf("\nElemento não encontrado\n");
+        return NULL;
+    } else {
+        if(raiz->valor == valor){
+            if(raiz->esquerda == NULL && raiz->direita == NULL){
+                free(raiz);
+                printf("\nElemento %d removido.\n",valor);
+                return NULL;
+            } else {
+                if(raiz->esquerda != NULL && raiz->direita != NULL){
+                    NoArv *aux = raiz->esquerda;
+                    while (aux->direita != NULL)
+                    {
+                        aux = aux->direita;
+                    }
+
+                    raiz->valor = aux->valor;
+                    aux->valor = valor;
+                    raiz->esquerda = remover(raiz->esquerda, valor);
+                    return raiz;
+                    
+                } else {
+                    NoArv *aux;
+                    if(raiz->esquerda != NULL){
+                        aux = raiz->esquerda;
+                    } else {
+                        aux = raiz->direita;
+                    }
+
+                    free(raiz);
+                    printf("\nElemento %d removido.\n",valor);
+                    return aux;
+                }
+            }
+        }  else {
+            if(valor < raiz->valor) {
+                raiz->esquerda = remover(raiz->esquerda, valor);
+            } else {
+                raiz->direita = remover(raiz->direita, valor);
+            }
+
+            return raiz;
+        }
+        
+    }
+
+}
+
 int calcularAltura(NoArv *raiz){
     if(raiz == NULL){
         return -1;
@@ -91,17 +141,19 @@ int main(){
 
     NoArv *raiz = NULL;
 
-    raiz = inserir(raiz , 34);
-    raiz = inserir(raiz , 23);
-    raiz = inserir(raiz , 54);
-    raiz = inserir(raiz , 27);
-    raiz = inserir(raiz , 31);
-    raiz = inserir(raiz , 29);
-    imprimir(raiz);
+    raiz = inserir(raiz , 100);
+    raiz = inserir(raiz , 125);
+    raiz = inserir(raiz , 50);
+    raiz = inserir(raiz , 25);
+    raiz = inserir(raiz , 101);
+    raiz = inserir(raiz , 150);
+    // imprimir(raiz);
     imprimir_ordenado(raiz);
-    printf("\nElemento %d encontrado.\n", buscar(raiz, 34)->valor);
+    printf("\nElemento %d encontrado.\n", buscar(raiz, 101)->valor);
     printf("\n Altura da arvore: %d.\n", calcularAltura(raiz));
     printf("\n Quantidade de nos: %d.\n", quantidade_nos(raiz));
     printf("\n Quantidade de folhas: %d.\n", quantidade_folhas(raiz));
+    raiz = remover(raiz, 125);
+    imprimir_ordenado(raiz);
     return 0;
 }
